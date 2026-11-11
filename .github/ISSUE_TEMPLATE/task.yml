@@ -1,0 +1,17 @@
+name: Task
+description: Công việc bảo trì hoặc phát triển
+title: "[TASK] "
+labels: ["task"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Mục tiêu
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Tiêu chí hoàn thành
+    validations:
+      required: true
