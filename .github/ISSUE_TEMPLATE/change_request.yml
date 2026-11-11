@@ -1,0 +1,23 @@
+name: Change Request
+description: Đề xuất thay đổi có phân tích tác động
+title: "[CR] "
+labels: ["change-request"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Vấn đề và nhu cầu
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria Given/When/Then
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Tác động dự kiến
+    validations:
+      required: true
