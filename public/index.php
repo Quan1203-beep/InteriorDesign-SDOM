@@ -24,9 +24,9 @@ if ($path === '/health') {
     header('Content-Type: application/json');
     try {
         $pdo = new PDO(
-            'mysql:host='.(getenv('DB_HOST') ?: '127.0.0.1').';port='.(getenv('DB_PORT') ?: '3306').';dbname='.(getenv('DB_DATABASE') ?: 'interior_design').';charset=utf8mb4',
-            getenv('DB_USERNAME') ?: 'root',
-            getenv('DB_PASSWORD') ?: '',
+            'mysql:host='.($_ENV['DB_HOST'] ?? '127.0.0.1').';port='.($_ENV['DB_PORT'] ?? '3306').';dbname='.($_ENV['DB_DATABASE'] ?? 'interior_design').';charset=utf8mb4',
+            $_ENV['DB_USERNAME'] ?? 'root',
+            $_ENV['DB_PASSWORD'] ?? '',
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
         );
         $pdo->query('SELECT 1');
@@ -52,9 +52,9 @@ if ($path === '/consultation' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     try {
         $pdo = new PDO(
-            'mysql:host='.(getenv('DB_HOST') ?: '127.0.0.1').';port='.(getenv('DB_PORT') ?: '3306').';dbname='.(getenv('DB_DATABASE') ?: 'interior_design').';charset=utf8mb4',
-            getenv('DB_USERNAME') ?: 'root',
-            getenv('DB_PASSWORD') ?: '',
+            'mysql:host='.($_ENV['DB_HOST'] ?? '127.0.0.1').';port='.($_ENV['DB_PORT'] ?? '3306').';dbname='.($_ENV['DB_DATABASE'] ?? 'interior_design').';charset=utf8mb4',
+            $_ENV['DB_USERNAME'] ?? 'root',
+            $_ENV['DB_PASSWORD'] ?? '',
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
         );
         $stmt = $pdo->prepare('INSERT INTO consultation_requests(customer_name,email,phone,message) VALUES(?,?,?,?)');
