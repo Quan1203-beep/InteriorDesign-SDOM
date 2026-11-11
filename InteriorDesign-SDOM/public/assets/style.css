@@ -1,0 +1,8 @@
+:root{--ink:#26231f;--muted:#777168;--paper:#f5f2ec;--accent:#92785e}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font:16px/1.6 Arial,sans-serif;background:#fff}
+a{color:inherit;text-decoration:none}.hero{min-height:620px;background:linear-gradient(90deg,rgba(20,18,15,.72),rgba(20,18,15,.12)),url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=85') center/cover;color:white;padding:28px 7%}
+nav{display:flex;gap:32px;align-items:center}.brand{font-weight:700;letter-spacing:3px;margin-right:auto}.hero-copy{max-width:650px;margin:130px 0}.hero h1{font:clamp(42px,6vw,76px)/1.05 Georgia,serif;margin:12px 0}.hero-copy p{max-width:520px}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--accent);font-weight:bold} .hero .eyebrow{color:#e7d6c2}
+.button{display:inline-block;background:var(--accent);color:white;border:0;padding:13px 24px;cursor:pointer}
+main section{padding:80px 7%}h2{font:42px Georgia,serif;margin:0 0 32px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px}.placeholder{height:230px;background:linear-gradient(135deg,#e8e0d5,#b9aa98)}.project h3{font:25px Georgia,serif}.project p{color:var(--muted)}.consult{background:var(--paper)}form{max-width:650px;display:grid;grid-template-columns:1fr 1fr;gap:14px}input,select,textarea{width:100%;padding:14px;border:1px solid #d6cec3;background:white;font:inherit}textarea{grid-column:1/-1;min-height:110px}form button{justify-self:start}#form-message{grid-column:1/-1}footer{padding:28px 7%;background:#26231f;color:white}
+@media(max-width:650px){nav{gap:14px}.hero-copy{margin:100px 0}form{grid-template-columns:1fr}textarea{grid-column:auto}}
