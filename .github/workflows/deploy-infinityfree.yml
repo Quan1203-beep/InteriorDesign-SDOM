@@ -15,7 +15,7 @@ jobs:
       - name: Deploy website files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.INFINITY_FTP_SERVER }}
+          server: ftpupload.net
           username: ${{ secrets.INFINITY_FTP_USERNAME }}
           password: ${{ secrets.INFINITY_FTP_PASSWORD }}
           server-dir: /htdocs/
