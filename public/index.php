@@ -19,7 +19,7 @@ $dbPort = (string)($env['DB_PORT'] ?? '3306');
 $dbName = (string)($env['DB_DATABASE'] ?? 'interior_design');
 $dbUser = (string)($env['DB_USERNAME'] ?? 'root');
 $dbPass = (string)($env['DB_PASSWORD'] ?? '');
-$basePath = rtrim(str_replace('\\\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
+$basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
 if ($basePath === '.' || $basePath === '/') $basePath = '';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 if ($basePath !== '' && str_starts_with($path, $basePath)) $path = substr($path, strlen($basePath)) ?: '/';
@@ -58,12 +58,7 @@ if ($path === '/consultation' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     try {
-        $pdo = new PDO(
-            'mysql:host='.($_ENV['DB_HOST'] ?? '127.0.0.1').';port='.($_ENV['DB_PORT'] ?? '3306').';dbname='.($_ENV['DB_DATABASE'] ?? 'interior_design').';charset=utf8mb4',
-            $_ENV['DB_USERNAME'] ?? 'root',
-            $_ENV['DB_PASSWORD'] ?? '',
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-        );
+        $pdo = $connect();
         $stmt = $pdo->prepare('INSERT INTO consultation_requests(customer_name,email,phone,message) VALUES(?,?,?,?)');
         $stmt->execute([trim($input['customer_name']), trim($input['email']), trim($input['phone'] ?? ''), trim($input['message'] ?? '')]);
         
