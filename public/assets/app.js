@@ -19,6 +19,32 @@ const products=[
 [18,'Bình gốm Nara','decor','Trang trí',590000,'Bình gốm thủ công trang trí bàn và kệ.','Gốm tráng men','Cao 28 cm','','photo-1578500494198-246f612d3b3d'],
 [19,'Tranh canvas Dune','decor','Trang trí',980000,'Tranh trừu tượng gam màu đất dịu nhẹ.','Canvas, khung composite','50 × 70 cm','','photo-1579783902614-a3fb3927b6a5'],
 [20,'Đôn gỗ Pebble','decor','Trang trí',1150000,'Đôn nhỏ đa năng làm bàn phụ hoặc ghế.','Gỗ tự nhiên hoàn thiện mờ','Ø 32 × 42 cm','','photo-1538688423619-a81d3f23454b']
+
+[21,'Sofa Cloud 2 chỗ','sofa','Sofa',10900000,'Sofa nhỏ gọn với đường nét mềm mại cho căn hộ hiện đại.','Vải boucle, khung gỗ thông','180 × 90 × 80 cm','MỚI','photo-1550254478-1a4f7b5c9b9c'],
+[22,'Sofa băng Mila','sofa','Sofa',14500000,'Kiểu dáng thanh lịch, phù hợp phòng khách tối giản.','Vải linen, gỗ tự nhiên','210 × 88 × 78 cm','','photo-1555041469-a586c61ea9bc'],
+[23,'Sofa đơn Teddy','sofa','Sofa',6750000,'Ghế sofa đơn êm ái cho góc thư giãn riêng.','Vải boucle, mút đàn hồi','90 × 85 × 82 cm','','photo-1567538096630-e0c55bd6374c'],
+[24,'Ghế ăn Nola','chair','Ghế',2150000,'Tựa lưng cong nhẹ, tạo cảm giác thoải mái khi dùng bữa.','Gỗ cao su, nệm vải','50 × 54 × 79 cm','','photo-1503602642458-232111445657'],
+[25,'Ghế bar Cove','chair','Ghế',2650000,'Ghế bar chân cao cho đảo bếp và quầy mini.','Gỗ sồi, thép sơn tĩnh điện','45 × 48 × 95 cm','','photo-1598300053653-1b6f6b5f5f6f'],
+[26,'Ghế thư giãn Onda','chair','Ghế',5850000,'Thiết kế ôm dáng, lý tưởng cho góc đọc sách.','Gỗ ash, vải dệt','76 × 82 × 78 cm','','photo-1567538096630-e0c55bd6374c'],
+[27,'Bàn trà Nest','table','Bàn',2950000,'Bàn trà tròn nhỏ gọn, dễ kết hợp nhiều phong cách.','MDF phủ veneer sồi','Ø 65 × 40 cm','','photo-1499933374294-4584851497cc'],
+[28,'Bàn ăn Aki 4 người','table','Bàn',7200000,'Bàn ăn 4 chỗ tối giản cho căn hộ và nhà phố.','Gỗ cao su tự nhiên','120 × 75 × 75 cm','','photo-1617806118233-18e1de247200'],
+[29,'Bàn đầu giường Pico','table','Bàn',1850000,'Bàn phụ nhỏ xinh cạnh sofa hoặc đầu giường.','Gỗ công nghiệp phủ melamine','45 × 35 × 48 cm','','photo-1499933374294-4584851497cc'],
+[30,'Bàn làm việc Nova','table','Bàn',4950000,'Mặt bàn rộng rãi, tối ưu góc làm việc tại nhà.','MDF chống ẩm, chân sắt','140 × 60 × 75 cm','','photo-1518455027359-f3f8164ba6bd'],
+[31,'Kệ TV Linea','storage','Tủ & kệ',6250000,'Kệ TV thanh thoát với khoang lưu trữ tiện dụng.','MDF phủ veneer walnut','160 × 40 × 48 cm','','photo-1600210492486-724fe5c67fb0'],
+[32,'Kệ trang trí Grid','storage','Tủ & kệ',3850000,'Kệ mở linh hoạt để sách, cây xanh và đồ decor.','Thép sơn tĩnh điện, MDF','80 × 30 × 150 cm','','photo-1594620302200-9a762244a156'],
+[33,'Tủ giày Entry','storage','Tủ & kệ',4450000,'Tủ giày gọn gàng cho khu vực sảnh vào.','MDF chống ẩm','100 × 35 × 95 cm','','photo-1538688423619-a81d3f23454b'],
+[34,'Tủ quần áo Alba','storage','Tủ & kệ',12900000,'Không gian lưu trữ rộng, thiết kế tinh giản.','MDF phủ melamine','120 × 55 × 200 cm','','photo-1600210492486-724fe5c67fb0'],
+[35,'Đèn bàn Sora','lighting','Đèn',1450000,'Ánh sáng dịu nhẹ cho bàn làm việc và tab đầu giường.','Kim loại sơn tĩnh điện','Ø 22 × 42 cm','','photo-1507473885765-e6ed057f782c'],
+[36,'Đèn thả Halo','lighting','Đèn',3250000,'Chao đèn thanh lịch tạo điểm nhấn cho bàn ăn.','Kim loại, thủy tinh','Ø 38 × 30 cm','','photo-1513506003901-1e6a229e2d15'],
+[37,'Đèn sàn Moku','lighting','Đèn',3750000,'Đèn sàn dáng thanh mảnh cho phòng khách ấm cúng.','Thép sơn tĩnh điện, chao vải','Ø 30 × 150 cm','','photo-1507473885765-e6ed057f782c'],
+[38,'Đèn ngủ Pebble','lighting','Đèn',990000,'Đèn ngủ nhỏ gọn với ánh sáng vàng ấm áp.','Gốm, chao vải','Ø 18 × 28 cm','','photo-1507473885765-e6ed057f782c'],
+[39,'Gương tròn Aura','decor','Trang trí',1350000,'Gương tròn tối giản giúp không gian thêm thoáng sáng.','Kính tráng bạc, khung kim loại','Ø 60 cm','','photo-1618221195710-dd6b41faaea6'],
+[40,'Bình gốm Sumi','decor','Trang trí',750000,'Bình gốm trang trí thủ công với sắc thái tự nhiên.','Gốm tráng men','Cao 25 cm','','photo-1578500494198-246f612d3b3d'],
+[41,'Thảm tròn Mellow','decor','Trang trí',1750000,'Thảm tròn mềm mại cho góc sofa hoặc phòng ngủ.','Polyester pha cotton','Ø 150 cm','','photo-1600166898405-da9535204843'],
+[42,'Tranh canvas Solace','decor','Trang trí',1150000,'Tranh trừu tượng gam màu trung tính dễ phối.','Canvas, khung composite','60 × 80 cm','','photo-1579783902614-a3fb3927b6a5'],
+[43,'Khay decor Nami','decor','Trang trí',420000,'Khay nhỏ xinh để nến thơm, trang sức và phụ kiện.','Gỗ tự nhiên','30 × 18 cm','','photo-1578500494198-246f612d3b3d'],
+[44,'Đôn bọc vải Poppy','decor','Trang trí',1450000,'Đôn đa năng có thể dùng làm ghế phụ hoặc bàn nhỏ.','Vải dệt, khung gỗ','Ø 38 × 42 cm','','photo-1567538096630-e0c55bd6374c'],
+[45,'Chậu cây decor Eden','decor','Trang trí',550000,'Chậu trang trí tối giản cho góc xanh trong nhà.','Gốm hoàn thiện mờ','Ø 20 × 20 cm','','photo-1578500494198-246f612d3b3d']
 ].map(x=>({id:x[0],name:x[1],category:x[2],cat:x[3],price:x[4],desc:x[5],material:x[6],size:x[7],tag:x[8],image:'https://images.unsplash.com/'+x[9]+'?auto=format&fit=crop&w=900&q=80'}));
 const $=s=>document.querySelector(s),money=n=>new Intl.NumberFormat('vi-VN',{style:'currency',currency:'VND',maximumFractionDigits:0}).format(n);
 let category='all',cart={};try{cart=JSON.parse(localStorage.getItem('maison-cart')||'{}')||{}}catch(e){cart={}}
