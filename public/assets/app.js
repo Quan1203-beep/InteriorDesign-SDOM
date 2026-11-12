@@ -18,8 +18,7 @@ const products=[
 [17,'Thảm dệt Terra','decor','Trang trí',2250000,'Thảm dệt họa tiết trung tính, mềm mại.','Polyester pha cotton','160 × 230 cm','','photo-1600166898405-da9535204843'],
 [18,'Bình gốm Nara','decor','Trang trí',590000,'Bình gốm thủ công trang trí bàn và kệ.','Gốm tráng men','Cao 28 cm','','photo-1578500494198-246f612d3b3d'],
 [19,'Tranh canvas Dune','decor','Trang trí',980000,'Tranh trừu tượng gam màu đất dịu nhẹ.','Canvas, khung composite','50 × 70 cm','','photo-1579783902614-a3fb3927b6a5'],
-[20,'Đôn gỗ Pebble','decor','Trang trí',1150000,'Đôn nhỏ đa năng làm bàn phụ hoặc ghế.','Gỗ tự nhiên hoàn thiện mờ','Ø 32 × 42 cm','','photo-1538688423619-a81d3f23454b']
-
+[20,'Đôn gỗ Pebble','decor','Trang trí',1150000,'Đôn nhỏ đa năng làm bàn phụ hoặc ghế.','Gỗ tự nhiên hoàn thiện mờ','Ø 32 × 42 cm','','photo-1538688423619-a81d3f23454b'],
 [21,'Sofa Cloud 2 chỗ','sofa','Sofa',10900000,'Sofa nhỏ gọn với đường nét mềm mại cho căn hộ hiện đại.','Vải boucle, khung gỗ thông','180 × 90 × 80 cm','MỚI','photo-1550254478-1a4f7b5c9b9c'],
 [22,'Sofa băng Mila','sofa','Sofa',14500000,'Kiểu dáng thanh lịch, phù hợp phòng khách tối giản.','Vải linen, gỗ tự nhiên','210 × 88 × 78 cm','','photo-1555041469-a586c61ea9bc'],
 [23,'Sofa đơn Teddy','sofa','Sofa',6750000,'Ghế sofa đơn êm ái cho góc thư giãn riêng.','Vải boucle, mút đàn hồi','90 × 85 × 82 cm','','photo-1567538096630-e0c55bd6374c'],
