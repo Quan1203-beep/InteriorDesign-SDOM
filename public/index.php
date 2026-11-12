@@ -63,7 +63,7 @@ if ($path === '/order' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = trim((string)($input['address'] ?? ''));
     $note = trim((string)($input['note'] ?? ''));
     $items = $input['items'] ?? [];
-    if ($name === '' || strlen($name) > 120 || $phone === '' || strlen($phone) > 30 || $address === '' || strlen($address) > 500 || !is_array($items) || count($items) < 1 || count($items) > 20) {
+    if ($name === '' || strlen($name) > 120 || $phone === '' || strlen($phone) > 30 || $address === '' || strlen($address) > 500 || !is_array($items) || count($items) < 1 || count($items) > 45) {
         http_response_code(422);
         echo json_encode(['ok' => false, 'message' => 'Vui lòng kiểm tra họ tên, số điện thoại, địa chỉ và giỏ hàng.']);
         exit;
@@ -81,6 +81,20 @@ if ($path === '/order' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         15 => ['Đèn sàn Atelier', 3450000], 16 => ['Gương vòm Sol', 1650000],
         17 => ['Thảm dệt Terra', 2250000], 18 => ['Bình gốm Nara', 590000],
         19 => ['Tranh canvas Dune', 980000], 20 => ['Đôn gỗ Pebble', 1150000],
+
+        21 => ['Sofa Cloud 2 chỗ', 10900000], 22 => ['Sofa băng Mila', 14500000],
+        23 => ['Sofa đơn Teddy', 6750000], 24 => ['Ghế ăn Nola', 2150000],
+        25 => ['Ghế bar Cove', 2650000], 26 => ['Ghế thư giãn Onda', 5850000],
+        27 => ['Bàn trà Nest', 2950000], 28 => ['Bàn ăn Aki 4 người', 7200000],
+        29 => ['Bàn đầu giường Pico', 1850000], 30 => ['Bàn làm việc Nova', 4950000],
+        31 => ['Kệ TV Linea', 6250000], 32 => ['Kệ trang trí Grid', 3850000],
+        33 => ['Tủ giày Entry', 4450000], 34 => ['Tủ quần áo Alba', 12900000],
+        35 => ['Đèn bàn Sora', 1450000], 36 => ['Đèn thả Halo', 3250000],
+        37 => ['Đèn sàn Moku', 3750000], 38 => ['Đèn ngủ Pebble', 990000],
+        39 => ['Gương tròn Aura', 1350000], 40 => ['Bình gốm Sumi', 750000],
+        41 => ['Thảm tròn Mellow', 1750000], 42 => ['Tranh canvas Solace', 1150000],
+        43 => ['Khay decor Nami', 420000], 44 => ['Đôn bọc vải Poppy', 1450000],
+        45 => ['Chậu cây decor Eden', 550000],
     ];
     $lines = [];
     $total = 0;
@@ -208,15 +222,15 @@ if ($path === '/consultation' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     exit;
 }
-?><!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HongQuann | Nội thất & không gian sống</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="<?= htmlspecialchars($basePath, ENT_QUOTES) ?>/assets/style.css?v=20261112-4"></head><body>
+?><!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HongQuann | Nội thất & không gian sống</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="<?= htmlspecialchars($basePath, ENT_QUOTES) ?>/assets/style.css?v=20261112-6"></head><body>
 <header class="top"><a class="logo" href="#">HONGQUANN <small>FURNITURE & LIVING</small></a><nav><a href="#products">Sản phẩm</a><a href="#story">Về chúng tôi</a><a href="#contact">Liên hệ</a></nav><button id="open-cart">Giỏ hàng <b id="cart-count">0</b></button></header>
-<main><section class="hero"><div><small>THE HONGQUANN COLLECTION · 2026</small><h1>Không gian đẹp,<br><i>bắt đầu từ bạn.</i></h1><p>Nội thất tinh tế, tiện nghi và bền bỉ cho từng góc nhà.</p><a class="btn" href="#products">Khám phá bộ sưu tập ↗</a><p class="hero-count"><b>20+</b> món nội thất được tuyển chọn</p></div><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85" alt="Phòng khách hiện đại"></section>
+<main><section class="hero"><div><small>THE HONGQUANN COLLECTION · 2026</small><h1>Không gian đẹp,<br><i>bắt đầu từ bạn.</i></h1><p>Nội thất tinh tế, tiện nghi và bền bỉ cho từng góc nhà.</p><a class="btn" href="#products">Khám phá bộ sưu tập ↗</a><p class="hero-count"><b>45+</b> món nội thất được tuyển chọn</p></div><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85" alt="Phòng khách hiện đại"></section>
 <section class="benefits"><span>01 · Thiết kế tinh tế</span><span>02 · Chất liệu chọn lọc</span><span>03 · Giao hàng tận nơi</span><span>04 · Hỗ trợ tận tâm</span></section>
-<section class="catalog" id="products"><div class="heading"><div><small>THE HONGQUANN COLLECTION</small><h2>Sản phẩm nổi bật</h2><p>Chọn món đồ phù hợp để hoàn thiện không gian của bạn.</p></div><span id="product-total">20 sản phẩm</span></div><div class="tools"><input id="product-search" placeholder="Tìm kiếm sản phẩm..."><div id="filters"><button class="active" data-cat="all">Tất cả</button><button data-cat="sofa">Sofa</button><button data-cat="chair">Ghế</button><button data-cat="table">Bàn</button><button data-cat="storage">Tủ & kệ</button><button data-cat="lighting">Đèn</button><button data-cat="decor">Trang trí</button></div></div><div class="grid" id="products-grid"></div><p id="empty" hidden>Không tìm thấy sản phẩm phù hợp.</p></section>
+<section class="catalog" id="products"><div class="heading"><div><small>THE HONGQUANN COLLECTION</small><h2>Sản phẩm nổi bật</h2><p>Chọn món đồ phù hợp để hoàn thiện không gian của bạn.</p></div><span id="product-total">45 sản phẩm</span></div><div class="tools"><input id="product-search" placeholder="Tìm kiếm sản phẩm..."><div id="filters"><button class="active" data-cat="all">Tất cả</button><button data-cat="sofa">Sofa</button><button data-cat="chair">Ghế</button><button data-cat="table">Bàn</button><button data-cat="storage">Tủ & kệ</button><button data-cat="lighting">Đèn</button><button data-cat="decor">Trang trí</button></div></div><div class="grid" id="products-grid"></div><p id="empty" hidden>Không tìm thấy sản phẩm phù hợp.</p></section>
 <section class="story" id="story"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Không gian sống"><div><small>ABOUT HONGQUANN</small><h2>Ít hơn, nhưng<br><i>đúng chất hơn.</i></h2><p>Chúng tôi tin rằng nội thất tốt không chỉ đẹp trong ảnh. Đó là cảm giác thoải mái mỗi ngày, chất liệu đồng hành lâu dài và thiết kế khiến bạn muốn trở về nhà.</p></div></section>
 <section class="contact" id="contact"><div><small>LET'S TALK</small><h2>Cùng tạo nên<br>không gian của bạn.</h2><p>Để lại thông tin, đội ngũ sẽ liên hệ tư vấn.</p><div class="owner-contact"><strong>Thông tin liên hệ chủ cửa hàng</strong><a href="tel:0799130600">0799 130 600</a><a href="mailto:hongquan12032005@gmail.com">hongquan12032005@gmail.com</a></div></div><form id="consultation"><label>Họ tên<input name="customer_name" required maxlength="120"></label><label>Email<input name="email" type="email" required></label><label>Điện thoại<input name="phone"></label><label>Nhu cầu<textarea name="message"></textarea></label><button class="btn">Gửi yêu cầu ↗</button><p id="result"></p></form></section></main>
 <footer>HONGQUANN · FURNITURE & LIVING <span>Chủ cửa hàng: <a href="tel:0799130600">0799 130 600</a> · © 2026 InteriorDesign-SDOM</span></footer>
 <div class="shade" id="shade"></div><aside id="cart"><div class="cart-head"><h2>Giỏ hàng <small id="cart-n">(0)</small></h2><button id="close-cart">×</button></div><div id="cart-lines"></div><div id="cart-empty">Giỏ hàng đang trống.<br>Hãy chọn món đồ bạn yêu thích.</div><div id="cart-foot"><div class="sum"><span>Tạm tính</span><b id="subtotal">0 ₫</b></div><div class="sum total"><span>Tổng tiền</span><b id="total">0 ₫</b></div><button class="btn" id="checkout">Tiến hành đặt hàng →</button><p>Phí vận chuyển sẽ được xác nhận khi đặt hàng.</p></div></aside>
 <div class="modal" id="detail-modal"><div class="modal-box"><button class="x" id="detail-close">×</button><div id="detail-body"></div></div></div>
 <div class="modal" id="order-modal"><div class="modal-box order-box"><button class="x" id="order-close">×</button><small>FINAL STEP</small><h2>Thông tin đặt hàng</h2><form id="order-form"><label>Họ tên<input name="name" required></label><label>Số điện thoại<input name="phone" required></label><label>Địa chỉ nhận hàng<textarea name="address" required></textarea></label><label>Ghi chú<textarea name="note"></textarea></label><p class="sum total">Tổng thanh toán <b id="order-total">0 ₫</b></p><button class="btn">Gửi đơn hàng & nhận hóa đơn qua email</button><p id="order-result" role="status"></p><small>Đơn hàng sẽ được gửi đến cửa hàng để xác nhận. Chưa tích hợp thanh toán trực tuyến.</small></form></div></div>
-<script>window.INTERIOR_BASE_PATH = <?= json_encode($basePath, JSON_UNESCAPED_SLASHES) ?>;</script><script src="<?= htmlspecialchars($basePath, ENT_QUOTES) ?>/assets/app.js?v=20261112-5" defer></script></body></html>
+<script>window.INTERIOR_BASE_PATH = <?= json_encode($basePath, JSON_UNESCAPED_SLASHES) ?>;</script><script src="<?= htmlspecialchars($basePath, ENT_QUOTES) ?>/assets/app.js?v=20261112-6" defer></script></body></html>
