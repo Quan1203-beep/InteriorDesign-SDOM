@@ -21,7 +21,8 @@ $dbUser = (string)($env['DB_USERNAME'] ?? 'root');
 $dbPass = (string)($env['DB_PASSWORD'] ?? '');
 $basePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
 if ($basePath === '.' || $basePath === '/') $basePath = '';
-$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+$route = trim((string)($_GET['route'] ?? ''), '/');
+$path = $route !== '' ? '/'.$route : (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/');
 if ($basePath !== '' && str_starts_with($path, $basePath)) $path = substr($path, strlen($basePath)) ?: '/';
 $connect = static function () use ($dbHost, $dbPort, $dbName, $dbUser, $dbPass): PDO {
     return new PDO("mysql:host=$dbHost;port=$dbPort;dbname=$dbName;charset=utf8mb4", $dbUser, $dbPass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
