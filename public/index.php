@@ -47,6 +47,143 @@ if ($path === '/health') {
     exit;
 }
 
+
+if ($path === '/order' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json; charset=utf-8');
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (!is_array($input)) {
+        http_response_code(400);
+        echo json_encode(['ok' => false, 'message' => 'Dữ liệu đơn hàng không hợp lệ.']);
+        exit;
+    }
+
+    $name = trim((string)($input['name'] ?? ''));
+    $phone = trim((string)($input['phone'] ?? ''));
+    $address = trim((string)($input['address'] ?? ''));
+    $note = trim((string)($input['note'] ?? ''));
+    $items = $input['items'] ?? [];
+    if ($name === '' || strlen($name) > 120 || $phone === '' || strlen($phone) > 30 || $address === '' || strlen($address) > 500 || !is_array($items) || count($items) < 1 || count($items) > 20) {
+        http_response_code(422);
+        echo json_encode(['ok' => false, 'message' => 'Vui lòng kiểm tra họ tên, số điện thoại, địa chỉ và giỏ hàng.']);
+        exit;
+    }
+
+    // Giá và tên sản phẩm được xác định phía máy chủ, không lấy giá do trình duyệt gửi lên.
+    $catalog = [
+        1 => ['Sofa Lino 3 chỗ', 12900000], 2 => ['Sofa góc Noma', 18900000],
+        3 => ['Ghế thư giãn Arco', 4950000], 4 => ['Ghế ăn Elio', 1850000],
+        5 => ['Ghế lounge Miro', 6200000], 6 => ['Bàn trà Orbit', 3250000],
+        7 => ['Bàn ăn Sora 6 người', 8900000], 8 => ['Bàn làm việc Kiyo', 4200000],
+        9 => ['Bàn console Haven', 3750000], 10 => ['Kệ sách Forma', 5600000],
+        11 => ['Tủ đầu giường Nami', 2150000], 12 => ['Tủ sideboard Luma', 7800000],
+        13 => ['Đèn bàn Luna', 1250000], 14 => ['Đèn thả Mellow', 2850000],
+        15 => ['Đèn sàn Atelier', 3450000], 16 => ['Gương vòm Sol', 1650000],
+        17 => ['Thảm dệt Terra', 2250000], 18 => ['Bình gốm Nara', 590000],
+        19 => ['Tranh canvas Dune', 980000], 20 => ['Đôn gỗ Pebble', 1150000],
+    ];
+    $lines = [];
+    $total = 0;
+    foreach ($items as $item) {
+        $id = filter_var($item['id'] ?? null, FILTER_VALIDATE_INT);
+        $qty = filter_var($item['quantity'] ?? null, FILTER_VALIDATE_INT);
+        if (!$id || !isset($catalog[$id]) || !$qty || $qty < 1 || $qty > 99) {
+            http_response_code(422);
+            echo json_encode(['ok' => false, 'message' => 'Có sản phẩm hoặc số lượng không hợp lệ trong giỏ hàng.']);
+            exit;
+        }
+        [$productName, $unitPrice] = $catalog[$id];
+        $lineTotal = $unitPrice * $qty;
+        $total += $lineTotal;
+        $lines[] = ['name' => $productName, 'quantity' => $qty, 'unit_price' => $unitPrice, 'line_total' => $lineTotal];
+    }
+
+    $smtpHost = trim((string)($env['SMTP_HOST'] ?? 'smtp.gmail.com'));
+    $smtpPort = (int)($env['SMTP_PORT'] ?? 587);
+    $smtpUser = trim((string)($env['SMTP_USER'] ?? ''));
+    $smtpPass = preg_replace('/\s+/', '', (string)($env['SMTP_PASS'] ?? ''));
+    $mailTo = trim((string)($env['MAIL_TO'] ?? 'hongquan12032005@gmail.com'));
+    $fromName = (string)($env['MAIL_FROM_NAME'] ?? 'HONGQUANN');
+    if ($smtpUser === '' || $smtpPass === '' || !filter_var($mailTo, FILTER_VALIDATE_EMAIL) || $smtpPort !== 587) {
+        error_log('Order email is not configured: missing SMTP settings.');
+        http_response_code(503);
+        echo json_encode(['ok' => false, 'message' => 'Cửa hàng chưa cấu hình email nhận đơn. Vui lòng thử lại sau.']);
+        exit;
+    }
+
+    $orderCode = 'HQ-' . date('ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
+    $money = static fn(int $amount): string => number_format($amount, 0, ',', '.') . ' ₫';
+    $escape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $rows = '';
+    foreach ($lines as $line) {
+        $rows .= '<tr><td style="padding:10px;border-bottom:1px solid #eee;">'.$escape($line['name']).'</td><td style="padding:10px;text-align:center;border-bottom:1px solid #eee;">'.$line['quantity'].'</td><td style="padding:10px;text-align:right;border-bottom:1px solid #eee;">'.$money($line['unit_price']).'</td><td style="padding:10px;text-align:right;border-bottom:1px solid #eee;">'.$money($line['line_total']).'</td></tr>';
+    }
+    $html = '<!doctype html><html lang="vi"><meta charset="utf-8"><body style="font-family:Arial,sans-serif;color:#292929"><div style="max-width:760px;margin:auto;padding:24px"><h1 style="letter-spacing:3px">HONGQUANN</h1><h2>HÓA ĐƠN ĐẶT HÀNG</h2><p><b>Mã đơn:</b> '.$escape($orderCode).'<br><b>Thời gian:</b> '.date('d/m/Y H:i').'</p><h3>Thông tin khách hàng</h3><p><b>Họ tên:</b> '.$escape($name).'<br><b>Điện thoại:</b> '.$escape($phone).'<br><b>Địa chỉ:</b> '.$escape($address).'<br><b>Ghi chú:</b> '.$escape($note !== '' ? $note : 'Không có').'</p><h3>Chi tiết sản phẩm</h3><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#f4f1ed"><th style="padding:10px;text-align:left">Sản phẩm</th><th>Số lượng</th><th style="text-align:right">Đơn giá</th><th style="text-align:right">Thành tiền</th></tr></thead><tbody>'.$rows.'</tbody></table><h2 style="text-align:right">Tổng cộng: '.$money($total).'</h2><p>Cảm ơn quý khách đã chọn HONGQUANN.</p></div></body></html>';
+    $plain = "HONGQUANN - HOA DON DAT HANG\nMa don: $orderCode\nKhach hang: $name\nDien thoai: $phone\nDia chi: $address\nGhi chu: $note\n\n";
+    foreach ($lines as $line) $plain .= $line['name'].' | SL '.$line['quantity'].' | '.$money($line['unit_price']).' | '.$money($line['line_total'])."\n";
+    $plain .= "\nTONG CONG: ".$money($total)."\n";
+
+    $socket = null;
+    try {
+        $socket = stream_socket_client("tcp://{$smtpHost}:{$smtpPort}", $errno, $errstr, 20, STREAM_CLIENT_CONNECT);
+        if (!$socket) throw new RuntimeException("SMTP connect failed: $errstr ($errno)");
+        stream_set_timeout($socket, 20);
+        $readReply = static function () use ($socket): string {
+            $response = '';
+            while (($line = fgets($socket, 515)) !== false) {
+                $response .= $line;
+                if (strlen($line) < 4 || $line[3] === ' ') break;
+            }
+            return $response;
+        };
+        $expect = static function (array $codes) use ($readReply): string {
+            $reply = $readReply();
+            $code = (int)substr($reply, 0, 3);
+            if (!in_array($code, $codes, true)) throw new RuntimeException('SMTP server rejected command: '.trim($reply));
+            return $reply;
+        };
+        $command = static function (string $line, array $codes) use ($socket, $expect): string {
+            if (fwrite($socket, $line."\r\n") === false) throw new RuntimeException('SMTP write failed.');
+            return $expect($codes);
+        };
+
+        $expect([220]);
+        $hostName = preg_replace('/[^a-zA-Z0-9.-]/', '', (string)($_SERVER['HTTP_HOST'] ?? 'localhost')) ?: 'localhost';
+        $command('EHLO '.$hostName, [250]);
+        $command('STARTTLS', [220]);
+        if (stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true) throw new RuntimeException('SMTP TLS negotiation failed.');
+        $command('EHLO '.$hostName, [250]);
+        $command('AUTH LOGIN', [334]);
+        $command(base64_encode($smtpUser), [334]);
+        $command(base64_encode($smtpPass), [235]);
+        $command('MAIL FROM:<'.$smtpUser.'>', [250]);
+        $command('RCPT TO:<'.$mailTo.'>', [250, 251]);
+        $command('DATA', [354]);
+
+        $subject = '=?UTF-8?B?'.base64_encode('HONGQUANN - Hóa đơn '.$orderCode).'?=';
+        $boundary = 'bnd_'.bin2hex(random_bytes(12));
+        $headers = 'From: =?UTF-8?B?'.base64_encode($fromName).'?= <'.$smtpUser.">\r\n";
+        $headers .= 'To: <'.$mailTo.">\r\nSubject: ".$subject."\r\n";
+        $headers .= 'MIME-Version: 1.0'."\r\nContent-Type: multipart/alternative; boundary=\"".$boundary."\"\r\n";
+        $body = '--'.$boundary."\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n".chunk_split(base64_encode($plain));
+        $body .= '--'.$boundary."\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n".chunk_split(base64_encode($html));
+        $body .= '--'.$boundary."--\r\n";
+        $message = $headers."\r\n".$body;
+        $message = preg_replace('/(?m)^\./', '..', str_replace(["\r\n", "\r", "\n"], "\r\n", $message));
+        if (fwrite($socket, $message."\r\n.\r\n") === false) throw new RuntimeException('SMTP message write failed.');
+        $expect([250]);
+        $command('QUIT', [221]);
+        fclose($socket);
+        $socket = null;
+        echo json_encode(['ok' => true, 'message' => 'Đã gửi đơn hàng và hóa đơn đến cửa hàng.', 'order_code' => $orderCode]);
+    } catch (Throwable $e) {
+        if (is_resource($socket)) fclose($socket);
+        error_log('Order email failed: '.$e->getMessage());
+        http_response_code(502);
+        echo json_encode(['ok' => false, 'message' => 'Chưa gửi được hóa đơn. Vui lòng thử lại hoặc liên hệ cửa hàng qua số 0799 130 600.']);
+    }
+    exit;
+}
+
 if ($path === '/consultation' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json; charset=utf-8');
     $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
@@ -80,5 +217,5 @@ if ($path === '/consultation' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 <footer>HONGQUANN · FURNITURE & LIVING <span>Chủ cửa hàng: <a href="tel:0799130600">0799 130 600</a> · © 2026 InteriorDesign-SDOM</span></footer>
 <div class="shade" id="shade"></div><aside id="cart"><div class="cart-head"><h2>Giỏ hàng <small id="cart-n">(0)</small></h2><button id="close-cart">×</button></div><div id="cart-lines"></div><div id="cart-empty">Giỏ hàng đang trống.<br>Hãy chọn món đồ bạn yêu thích.</div><div id="cart-foot"><div class="sum"><span>Tạm tính</span><b id="subtotal">0 ₫</b></div><div class="sum total"><span>Tổng tiền</span><b id="total">0 ₫</b></div><button class="btn" id="checkout">Tiến hành đặt hàng →</button><p>Phí vận chuyển sẽ được xác nhận khi đặt hàng.</p></div></aside>
 <div class="modal" id="detail-modal"><div class="modal-box"><button class="x" id="detail-close">×</button><div id="detail-body"></div></div></div>
-<div class="modal" id="order-modal"><div class="modal-box order-box"><button class="x" id="order-close">×</button><small>FINAL STEP</small><h2>Thông tin đặt hàng</h2><form id="order-form"><label>Họ tên<input name="name" required></label><label>Số điện thoại<input name="phone" required></label><label>Địa chỉ nhận hàng<textarea name="address" required></textarea></label><label>Ghi chú<textarea name="note"></textarea></label><p class="sum total">Tổng thanh toán <b id="order-total">0 ₫</b></p><button class="btn">Xác nhận đơn hàng</button><small>Đặt hàng mô phỏng, chưa tích hợp thanh toán trực tuyến.</small></form></div></div>
-<script>window.INTERIOR_BASE_PATH = <?= json_encode($basePath, JSON_UNESCAPED_SLASHES) ?>;</script><script src="<?= htmlspecialchars($basePath, ENT_QUOTES) ?>/assets/app.js?v=20261112-2" defer></script></body></html>
+<div class="modal" id="order-modal"><div class="modal-box order-box"><button class="x" id="order-close">×</button><small>FINAL STEP</small><h2>Thông tin đặt hàng</h2><form id="order-form"><label>Họ tên<input name="name" required></label><label>Số điện thoại<input name="phone" required></label><label>Địa chỉ nhận hàng<textarea name="address" required></textarea></label><label>Ghi chú<textarea name="note"></textarea></label><p class="sum total">Tổng thanh toán <b id="order-total">0 ₫</b></p><button class="btn">Gửi đơn hàng & nhận hóa đơn qua email</button><p id="order-result" role="status"></p><small>Đơn hàng sẽ được gửi đến cửa hàng để xác nhận. Chưa tích hợp thanh toán trực tuyến.</small></form></div></div>
+<script>window.INTERIOR_BASE_PATH = <?= json_encode($basePath, JSON_UNESCAPED_SLASHES) ?>;</script><script src="<?= htmlspecialchars($basePath, ENT_QUOTES) ?>/assets/app.js?v=20261112-3" defer></script></body></html>
